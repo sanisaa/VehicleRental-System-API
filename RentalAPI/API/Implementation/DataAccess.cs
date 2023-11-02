@@ -3,12 +3,20 @@ using API.Models;
 using API.Services;
 using AutoMapper;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace API.Implementation
 {
     public class DataAccess : IDataAccess
     {
+
+        public static User user = new User();
+
+
         private readonly VehicleDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
@@ -23,24 +31,22 @@ namespace API.Implementation
             DbConnection = _configuration["connectionStrings:DBConnect"] ?? "";
 
         }
+
+        //register user
         public async Task<string> CreateUser(UserDto user)
         {
-            //using (var connection = new SqlConnection(DbConnection))
-            //{
-            //    var sql = "INSERT INTO Users (FirstName, LastName, Email, Mobile, Password, Blocked, Active, CreatedOn, UserType) " +
-            //              "VALUES (@FirstName, @LastName, @Email, @Mobile, @Password, @Blocked, CAST(@Active AS BIT), @CreatedOn, @UserType);";
-
-            //    var result = await connection.ExecuteAsync(sql, user);
-
-            //    return result > 0 ? "Account Created Successfully" : "Account Creation Failed";
-            //}
+            CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var add = _mapper.Map<User>(user);
+            add.PasswordHash = passwordHash;
+            add.PasswordSalt = passwordSalt;
+
+       
             await _dbContext.Users.AddAsync(add);
             await _dbContext.SaveChangesAsync();
             return "ok";
         }
 
-
+        //check if email is already used
         public bool isEmailAvailable(string email)
         {
             var result = false;
@@ -54,15 +60,20 @@ namespace API.Implementation
             //sending negative value if 0 then return true and if 1 then return false
         }
 
+        //login
         public bool AuthenticateUser(string email, string password, out User? user)
         {
             var result = false;
             using (var connection = new SqlConnection(DbConnection))
             {
-                result = connection.ExecuteScalar<bool>("select count(1) from Users where email=@email and password=@password;", new { email, password });
+                result = connection.ExecuteScalar<bool>("select count(1) from Users where email=@email;", new { email });
                 if (result)
                 {
                     user = connection.QueryFirst<User>("select * from Users where email=@email;", new { email });
+                    if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -71,5 +82,29 @@ namespace API.Implementation
             }
             return result;
         }
+
+
+        //create hashed password
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+
+        //verify the hashed password
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
+            }
+        }
+
+
     }
 }

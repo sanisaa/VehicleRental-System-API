@@ -11,6 +11,7 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+       
         private readonly IDataAccess _vehicle;
         private readonly VehicleDbContext _db;
         private readonly IConfiguration _configuration;
@@ -31,7 +32,7 @@ namespace API.Controllers
                 return Ok("Email is not available!");
             }
             user.CreatedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            user.UserType = UserType.USER;
+           user.UserType = UserType.USER;
             
             
             var register = await _vehicle.CreateUser(user);
@@ -39,8 +40,8 @@ namespace API.Controllers
         }
 
 
-        //Packages for token creation
-        //System.IdentityModel.Tokens.Jwt    Microsoft.IdentityModel.Tokens    Microsoft.AspNetCore.Authentication.JwtBearer
+       // Packages for token creation
+        //System.IdentityModel.Tokens.Jwt Microsoft.IdentityModel.Tokens    Microsoft.AspNetCore.Authentication.JwtBearer
         [HttpGet("Login")]
         public IActionResult Login(string email, string password)
         {
@@ -55,6 +56,7 @@ namespace API.Controllers
             }
             return Ok("Invalid");
         }
+
 
 
     }

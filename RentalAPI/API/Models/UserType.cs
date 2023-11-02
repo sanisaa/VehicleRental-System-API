@@ -1,8 +1,13 @@
-﻿namespace API.Models
+﻿using System.ComponentModel;
+
+namespace API.Models
 {
     public enum UserType
     {
-        USER,
-        ADMIN   
+        [Description("Administrator")]
+        ADMIN = 1,
+
+        [Description("Regular User")]
+        USER = 2
     }
 }

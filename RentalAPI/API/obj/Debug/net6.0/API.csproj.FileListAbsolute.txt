@@ -132,3 +132,5 @@ D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\runtimes\browser\lib\net
 D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\AutoMapper.dll
 D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\BCrypt.Net-Next.dll
+D:\project\VehicleRental\RentalAPI\API\bin\Debug\net6.0\Newtonsoft.Json.dll

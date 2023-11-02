@@ -35,6 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 //Dependency InjectionA
 builder.Services.AddScoped<IDataAccess, DataAccess>();
+builder.Services.AddScoped<IVehiclesDisplay, VehicleDisplay>();
 
 //builder.Services.AddSingleton<IDataAccess, DataAccess>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

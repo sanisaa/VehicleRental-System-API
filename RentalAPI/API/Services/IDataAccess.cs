@@ -6,6 +6,8 @@ namespace API.Services
     {
         Task<string> CreateUser(UserDto user);
         bool isEmailAvailable(string email);
+       
         bool AuthenticateUser(string email, string password, out User? user);
+      
     }
 }

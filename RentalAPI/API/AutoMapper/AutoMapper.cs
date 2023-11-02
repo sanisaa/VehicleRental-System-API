@@ -3,13 +3,13 @@ using AutoMapper;
 
 namespace API.AutoMapper
 {
-    public class AutoMapper: Profile
+    public class AutoMapperProfile : Profile
     {
-        public AutoMapper()
+        public AutoMapperProfile()
         {
             CreateMap<UserDto, User>();
+            CreateMap<LoginDto, User>();
             CreateMap<User, UserDto>();
-
         }
     }
 }
