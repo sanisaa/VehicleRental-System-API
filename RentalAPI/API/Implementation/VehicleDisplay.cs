@@ -19,20 +19,36 @@ namespace API.Implementation
             DbConnection = _configuration["connectionStrings:DBConnect"] ?? "";
         }
 
-        public IList<Models.Vehicle> GetAllVehicles()
+        public IList<Object> GetAllVehicles()
         {
             IEnumerable<Vehicle> vehicles = null;
+            //getting data from database
             using (var connection = new SqlConnection(DbConnection))
             {
-                var sql = "select * from Vehicles;";
-                vehicles = connection.Query<Vehicle>(sql);
-                foreach(var vehicle in vehicles)
-                {
-                    sql = "select * from VehicleCategories where Id =" + vehicle.CategoryId;
-                    vehicle.Category = connection.QuerySingle<VehicleCategory>(sql);
-                }
+                var sql = "SELECT v.*, c.Category, c.SubCategory FROM Vehicles v JOIN VehicleCategories c ON v.CategoryId = c.Id;";
+                vehicles = connection.Query<Vehicle, VehicleCategory, Vehicle>(
+                    sql,
+                    (vehicle, category) =>
+                    {
+                        vehicle.Category = category;
+                        return vehicle;
+                    },
+                    splitOn: "CategoryId"
+                );
             }
-            return (IList<Models.Vehicle>)vehicles.ToList();
+
+            //displaying it in format mentioned below and returning the list
+            return vehicles.Select(vehicle => new
+            {
+                vehicle.Id,
+                vehicle.Name,
+                vehicle.Category.Category,
+                vehicle.Category.SubCategory,
+                vehicle.Price,
+                Available = !vehicle.Ordered,
+                vehicle.Brand
+            }).ToList<Object>();
         }
+
     }
 }

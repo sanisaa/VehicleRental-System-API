@@ -24,17 +24,7 @@ namespace API.Controllers
         [HttpGet("GetAllVehicles")]
         public IActionResult GetAllVehicles()
         {
-            var v = _vehicle.GetAllVehicles();
-            var vehiclesToSend = v.Select(vehicle => new
-            {
-                vehicle.Id,
-                vehicle.Name,
-                vehicle.Category.Category,
-                vehicle.Category.SubCategory,
-                vehicle.Price,
-                Available = !vehicle.Ordered,
-                vehicle.Brand
-            }).ToList();
+            var vehiclesToSend = _vehicle.GetAllVehicles();
             return Ok(vehiclesToSend);
         }
     }

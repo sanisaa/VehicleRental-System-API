@@ -4,6 +4,6 @@ namespace API.Services
 {
     public interface IVehiclesDisplay
     {
-        public IList<Vehicle> GetAllVehicles();
+        public IList<Object> GetAllVehicles();
     }
 }

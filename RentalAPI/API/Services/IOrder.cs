@@ -2,6 +2,6 @@
 {
     public interface IOrder
     {
-        bool OrderBook(int userId, int vehicleId);
+        bool OrderVehicle(int userId, int vehicleId);
     }
 }
