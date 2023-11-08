@@ -21,11 +21,15 @@ namespace API.Controllers
         }
 
 
+      
         [HttpPost("OrderVehicle/{userId}/{vehicleId}")]
         public IActionResult OrderVehicle(int userId, int vehicleId)
         {
-            var result = _vehicle.OrderVehicle(userId, vehicleId) ? "success" : "fail";
-            return Ok(result);
+            var result = _vehicle.OrderVehicle(userId, vehicleId);
+
+            // Return a JSON response with a success property
+            return Ok(new { success = result });
         }
+
     }
 }

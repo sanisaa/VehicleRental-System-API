@@ -37,6 +37,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddScoped<IDataAccess, DataAccess>();
 builder.Services.AddScoped<IVehiclesDisplay, VehicleDisplay>();
 builder.Services.AddScoped<IOrder, Order>();
+builder.Services.AddScoped<IOrderDisplay, OrderDisplay>();
+builder.Services.AddScoped<IReturnVehicle, ReturnVehicle>();
+builder.Services.AddScoped<IUser, Users>();
 
 //builder.Services.AddSingleton<IDataAccess, DataAccess>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

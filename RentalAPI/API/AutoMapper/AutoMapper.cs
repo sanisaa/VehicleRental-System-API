@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using AutoMapper;
+using System.Globalization;
 
 namespace API.AutoMapper
 {
@@ -10,6 +11,7 @@ namespace API.AutoMapper
             CreateMap<UserDto, User>();
             CreateMap<LoginDto, User>();
             CreateMap<User, UserDto>();
+
         }
     }
 }
