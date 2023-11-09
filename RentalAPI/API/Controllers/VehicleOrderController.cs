@@ -31,5 +31,17 @@ namespace API.Controllers
             return Ok(new { success = result });
         }
 
+        [HttpGet("GetUserOrders/{id}")]
+        public IActionResult GetUserOrders(int id)
+        {
+            return Ok(_vehicle.GetUserOrder(id));
+        }
+
+        [HttpGet("GetAllOrders")]
+        public IActionResult GetAllOrders()
+        {
+            return Ok(_vehicle.GetAllOrders());
+        }
+
     }
 }
