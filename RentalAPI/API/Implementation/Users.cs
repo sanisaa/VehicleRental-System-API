@@ -45,7 +45,7 @@ namespace API.Implementation
                             var extraDays = (currentDate - maxDate).Days;
                             extraDays = extraDays < 0 ? 0 : extraDays;
 
-                            fine = extraDays * 50;
+                            fine = extraDays * 25;
                             user.Fine += fine;
                         }
                     }

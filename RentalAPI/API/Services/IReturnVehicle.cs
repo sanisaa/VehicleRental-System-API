@@ -2,6 +2,6 @@
 {
     public interface IReturnVehicle
     {
-        bool ReturnVehicle(int userId, int vehicleId);
+        bool ReturnVehicle(int vehicleId, int userId);
     }
 }

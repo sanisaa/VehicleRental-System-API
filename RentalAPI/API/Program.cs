@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 //Dependency InjectionA
 builder.Services.AddScoped<IDataAccess, DataAccess>();
-builder.Services.AddScoped<IVehiclesDisplay, VehicleDisplay>();
+builder.Services.AddScoped<IVehiclesOperation, VehicleOperation>();
 builder.Services.AddScoped<IOrder, Order>();
 builder.Services.AddScoped<IOrderDisplay, OrderDisplay>();
 builder.Services.AddScoped<IReturnVehicle, ReturnVehicle>();
