@@ -1,4 +1,5 @@
 ﻿using API.DataAccess;
+using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,28 @@ namespace API.Controllers
         public IActionResult GetAllOrders()
         {
             return Ok(_vehicle.GetAllOrders());
+        }
+        [HttpGet("VerifyOrders")]
+        public IActionResult VerifyOrders()
+        {
+            return Ok(_vehicle.VerifyOrder());
+        }
+
+        [HttpPost("AcceptOrder")]
+        public IActionResult AcceptOrder(Orders order)
+        {
+            var result = _vehicle.AcceptOrder(order);
+
+            // Return a JSON response with a success property
+            return Ok(new { success = result });
+        }
+        [HttpPost("RejectOrder")]
+        public IActionResult RejectOrder(Orders order)
+        {
+            var result = _vehicle.RejectOrder(order);
+
+            // Return a JSON response with a success property
+            return Ok(new { success = result });
         }
 
     }

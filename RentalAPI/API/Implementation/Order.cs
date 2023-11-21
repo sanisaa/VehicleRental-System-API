@@ -23,10 +23,13 @@ namespace API.Implementation
             var ordered = false;
             using (var connection = new SqlConnection(DbConnection))
             {
-                var sql = $"insert into Orders (UserId, VehicleId, OrderedOn, Returned) values ({userId}, {vehicleId}, '{DateTime.Now:yyyy-MM-dd HH:mm:ss}',0);";
+                var sql = $"insert into Verify (UserId, VehicleId, OrderedOn, Returned, Status) values ({userId}, {vehicleId}, '{DateTime.Now:yyyy-MM-dd HH:mm:ss}',0,0);";
                 var inserted = connection.Execute(sql) == 1;
                 if (inserted)
                 {
+                    var orderSql = $"INSERT INTO Orders (UserId, VehicleId, OrderedOn, Returned, Status) VALUES ({userId}, {vehicleId}, '{DateTime.Now:yyyy-MM-dd HH:mm:ss}',0,0);";
+                    var insertedOrder = connection.Execute(orderSql) == 1;
+
                     sql = $"update Vehicles set Ordered = 1 where Id={vehicleId}";
                     var updated = connection.Execute(sql) == 1;
                     ordered = updated;
@@ -43,7 +46,7 @@ namespace API.Implementation
             {
                 var sql = @"select o.Id, u.Id as UserId, CONCAT(u.FirstName, ' ', u.LastName) as Name, 
                             v.Id as VehicleId, v.Name as VehicleName, 
-                            o.OrderedOn, o.Returned
+                            o.OrderedOn, o.Returned, o.Status
                             from Users u 
                             LEFT JOIN Orders o ON u.Id = o.UserId                            
                              LEFT JOIN Vehicles v ON o.VehicleId = v.Id 
@@ -63,10 +66,69 @@ namespace API.Implementation
                             from Users u 
                             LEFT JOIN Orders o ON u.Id = o.UserId                            
                              LEFT JOIN Vehicles v ON o.VehicleId = v.Id 
+                             where o.Id is NOT NULL AND o.Status = 1;";
+                orders = connection.Query<Orders>(sql);
+            }
+            return orders.ToList();
+        }
+
+        public IList<Orders> VerifyOrder()
+        {
+            IEnumerable<Orders> orders;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                var sql = @"select v.Id, u.Id as UserId, CONCAT(u.FirstName, ' ', u.LastName) as Name, 
+                            ve.Id as VehicleId, ve.Name as VehicleName, 
+                            v.OrderedOn, v.Returned, v.Status, 
+							o.Id as OrderId
+                            from Users u 
+                             LEFT JOIN Orders o ON u.Id = o.UserId
+                            LEFT JOIN Verify v ON u.Id = v.UserId AND o.VehicleId = v.VehicleId AND o.OrderedOn = v.OrderedOn
+                             LEFT JOIN Vehicles ve ON o.VehicleId = ve.Id 
                              where o.Id is NOT NULL;";
                 orders = connection.Query<Orders>(sql);
             }
             return orders.ToList();
+        }
+        public bool AcceptOrder(Orders order)
+        {
+            var ordered = false;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                    var sql = $"update Verify set Status = 1 where Id=@Id";
+                    var updated = connection.Execute(sql, new { Id = order.Id}) == 1;
+                    ordered = updated;
+                if (updated)
+                {
+                    var query = $"update Orders set Status = 1 where Id=@OrderId";
+                    connection.Execute(query, new { OrderId = order.OrderId});
+
+                }
+            }
+
+            return ordered;
+        }
+
+        public bool RejectOrder(Orders order)
+        {
+            var ordered = false;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                var sql = $"update Verify set Status = 2 where Id=@Id";
+                var updated = connection.Execute(sql, new { Id = order.Id }) == 1;
+                ordered = updated;
+                if (updated)
+                {
+                    var query = $"update Orders set Status = 2 where UserId=@Id AND VehicleId=@vId";
+                    connection.Execute(query, new { Id = order.UserId, vId = order.VehicleId });
+
+                    var query2 = "update Vehicles set Ordered = 0 where Id=@vId";
+                    connection.Execute(query2, new { vId = order.VehicleId });
+
+                }
+            }
+
+            return ordered;
         }
     }
 }

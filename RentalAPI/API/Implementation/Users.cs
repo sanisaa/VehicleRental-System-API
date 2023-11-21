@@ -25,9 +25,9 @@ namespace API.Implementation
             IEnumerable<UserDto> users;
             using (var connection = new SqlConnection(DbConnection))
             {
-                users = connection.Query<UserDto>("select * from Users;");
+                users = connection.Query<UserDto>("select * from Users");
 
-                var listOfOrders = connection.Query("select u.id as UserId, o.VehicleId, o.OrderedOn, o.Returned from Users u LEFT JOIN Orders o ON u.id = o.userId;");
+                var listOfOrders = connection.Query(" select u.id as UserId, o.VehicleId, o.OrderedOn, o.Returned, o.Status from Users u LEFT JOIN Orders o ON u.id = o.userId WHERE o.Status =1");
 
 
                 foreach (var user in users)
