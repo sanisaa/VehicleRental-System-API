@@ -10,5 +10,6 @@
         public int Returned { get; set; }
         public int Status { get; set; }
         public int OrderId { get; set; }
+        public double Price { get; set; }
     }
 }

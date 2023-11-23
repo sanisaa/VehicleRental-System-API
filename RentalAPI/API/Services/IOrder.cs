@@ -6,6 +6,7 @@ namespace API.Services
     {
         bool OrderVehicle(int userId, int vehicleId);
         public IList<Orders> GetUserOrder(int userId);
+        public IList<Orders> GetOrderById(int id);
         public IList<Orders> GetAllOrders();
 
         public IList<Orders> VerifyOrder();

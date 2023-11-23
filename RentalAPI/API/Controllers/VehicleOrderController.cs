@@ -37,6 +37,11 @@ namespace API.Controllers
         {
             return Ok(_vehicle.GetUserOrder(id));
         }
+        [HttpGet("GetOrdersById/{id}")]
+        public IActionResult GetOrdersById(int id)
+        {
+            return Ok(_vehicle.GetOrderById(id));
+        }
 
         [HttpGet("GetAllOrders")]
         public IActionResult GetAllOrders()

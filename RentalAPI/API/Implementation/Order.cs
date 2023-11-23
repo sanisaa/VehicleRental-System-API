@@ -130,5 +130,26 @@ namespace API.Implementation
 
             return ordered;
         }
+
+        public IList<Orders> GetOrderById(int id)
+        {
+            IEnumerable<Orders> order;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                
+                var sql = @"select v.Id, u.Id as UserId, CONCAT(u.FirstName, ' ', u.LastName) as Name, 
+                            ve.Id as VehicleId, ve.Name as VehicleName, ve.Price as Price,
+                            v.OrderedOn, v.Status, 
+							o.Id as OrderId
+                            from Users u 
+                             LEFT JOIN Orders o ON u.Id = o.UserId
+                            LEFT JOIN Verify v ON u.Id = v.UserId AND o.VehicleId = v.VehicleId AND o.OrderedOn = v.OrderedOn
+                             LEFT JOIN Vehicles ve ON o.VehicleId = ve.Id 
+                             where o.Id = @oid";
+                order = connection.Query<Orders>(sql, new { oid = id });
+            }
+            return order.ToList();
+        }
+  
     }
 }
