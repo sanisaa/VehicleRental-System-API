@@ -1,0 +1,17 @@
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Implementation.deps.json
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Implementation.dll
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Implementation.pdb
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Domain.dll
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Repositories.dll
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Repositories.pdb
+D:\project\VehicleRental\RentalAPI\Implementation\bin\Debug\net6.0\Domain.pdb
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.csproj.AssemblyReference.cache
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.GeneratedMSBuildEditorConfig.editorconfig
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.AssemblyInfoInputs.cache
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.AssemblyInfo.cs
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.csproj.CoreCompileInputs.cache
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.csproj.CopyComplete
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.dll
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\refint\Implementation.dll
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\Implementation.pdb
+D:\project\VehicleRental\RentalAPI\Implementation\obj\Debug\net6.0\ref\Implementation.dll

@@ -1,5 +1,7 @@
-﻿using API.Models;
+﻿
 using AutoMapper;
+using Domain.DTO;
+using Domain.Model;
 using System.Globalization;
 
 namespace API.AutoMapper

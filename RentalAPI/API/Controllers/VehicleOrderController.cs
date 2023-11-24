@@ -1,8 +1,9 @@
-﻿using API.DataAccess;
-using API.Models;
-using API.Services;
+﻿
+using Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Repositories.DataAccess;
+using Repositories.Services;
 
 namespace API.Controllers
 {
