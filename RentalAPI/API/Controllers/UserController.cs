@@ -53,5 +53,12 @@ namespace API.Controllers
             }
             return Ok("success");
         }
+
+        [HttpPost("Feedback")]
+        public IActionResult AddFeedback(int userId, string feedback)
+        {
+            _vehicle.AddFeedback(userId, feedback);
+            return Ok("Feedback Inserted");
+        }
     }
 }

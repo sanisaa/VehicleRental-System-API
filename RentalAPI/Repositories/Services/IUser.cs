@@ -13,5 +13,8 @@ namespace Repositories.Services
         void UnblockUser(int userId);
         void DeactivateUser(int userId);
         void ActivateUser(int userId);
+
+        bool AddFeedback(int userId, string feedback);
+        
     }
 }

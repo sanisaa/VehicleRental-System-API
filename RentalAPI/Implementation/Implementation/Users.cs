@@ -25,8 +25,13 @@ namespace Implementation.Implementation
                 _configuration = configuration;
                 DbConnection = _configuration["connectionStrings:DBConnect"] ?? "";
             }
-            // In your service or repository
-            public IList<Object> GetUser()
+
+        public Users()
+        {
+        }
+
+        // In your service or repository
+        public IList<Object> GetUser()
             {
 
                 IEnumerable<UserDto> users;
@@ -97,6 +102,22 @@ namespace Implementation.Implementation
                 using var connection = new SqlConnection(DbConnection);
                 connection.Execute("update Users set Active = 1 where Id=@Id", new { Id = userId });
             }
+
+        public bool AddFeedback(int userId, string feedback)
+        {
+            var result = false;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                var sql = "select Id, CONCAT(FirstName,' ' ,LastName) as Name From Users Where Id = @Id";
+                var data = connection.QueryFirstOrDefault(sql, new { Id = userId });
+
+                var query = "INSERT INTO feedback (Uid, Name, Feedback) VALUES (@Uid, @Name, @Feedback)";
+                connection.Query(query, new { Uid = data.Id, Name = data.Name, Feedback = feedback });
+                result = true;
+            }
+
+            return result;
+        }
 
 
         }
