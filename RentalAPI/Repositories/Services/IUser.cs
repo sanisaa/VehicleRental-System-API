@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace Repositories.Services
         void DeactivateUser(int userId);
         void ActivateUser(int userId);
 
-        bool AddFeedback(int userId, string feedback);
+        void AddFeedback(int userId, string feedback);
+        List<Feedbacks> GetFeedback();
         
     }
 }

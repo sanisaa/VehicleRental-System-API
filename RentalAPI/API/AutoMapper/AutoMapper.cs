@@ -1,8 +1,6 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.DTO;
 using Domain.Model;
-using System.Globalization;
 
 namespace API.AutoMapper
 {
@@ -10,10 +8,11 @@ namespace API.AutoMapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<UserDto, User>();
+            CreateMap<UserDto, User>()
+                .ForMember(dest => dest.UserType, opt => opt.MapFrom(src => src.UserType.ToString()));
+
             CreateMap<LoginDto, User>();
             CreateMap<User, UserDto>();
-
         }
     }
 }

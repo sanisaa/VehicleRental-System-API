@@ -34,9 +34,11 @@ namespace API.Controllers
                 return Ok("Email is not available!");
             }
            user.CreatedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-           user.UserType = UserType.USER;
-            
-            
+           user.UserType = UserType.User;
+
+        
+
+
             var register = await _vehicle.CreateUser(user);
             return Ok("Account Created Sucessfully");
         }

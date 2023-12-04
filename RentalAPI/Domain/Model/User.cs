@@ -17,7 +17,7 @@ namespace Domain.Model
         public bool Blocked { get; set; } = false;
         public bool Active { get; set; } = true;
         //public float Fine { get; set; } = 0;
-        public UserType UserType { get; set; }
+        public string UserType { get; set; }
         public string? CreatedOn { get; set; }
     }
 }

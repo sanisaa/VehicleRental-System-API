@@ -58,9 +58,15 @@ namespace API.Controllers
         public IActionResult AddFeedback(int userId, string feedback)
         {
             _vehicle.AddFeedback(userId, feedback);
-            return Ok("Feedback Inserted");
+            return Ok(new { message = "Feedback Inserted" });
         }
 
-        
+
+        [HttpGet("GetFeedback")]
+        public IActionResult GetFeedback()
+        {
+            var feedback = _vehicle.GetFeedback();
+            return Ok(feedback);
+        }
     }
 }

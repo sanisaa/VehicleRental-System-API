@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Model
 {
-    public enum UserType
+    public static class  UserType
     {
-        [Description("Administrator")]
-        ADMIN = 1,
+        public const string Admin = "ADMIN";
 
-        [Description("Regular User")]
-        USER = 2
+        public const string User = "USER";
     }
 }

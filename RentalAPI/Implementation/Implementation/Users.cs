@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Domain.DTO;
+using Domain.Model;
 using Microsoft.Extensions.Configuration;
 using Repositories.DataAccess;
 using Repositories.Services;
@@ -26,11 +27,7 @@ namespace Implementation.Implementation
                 DbConnection = _configuration["connectionStrings:DBConnect"] ?? "";
             }
 
-        public Users()
-        {
-        }
-
-        // In your service or repository
+      
         public IList<Object> GetUser()
             {
 
@@ -103,24 +100,33 @@ namespace Implementation.Implementation
                 connection.Execute("update Users set Active = 1 where Id=@Id", new { Id = userId });
             }
 
-        public bool AddFeedback(int userId, string feedback)
+        public void AddFeedback(int userId, string feedback)
         {
-            var result = false;
-            using (var connection = new SqlConnection(DbConnection))
-            {
+
+            using var connection = new SqlConnection(DbConnection);
+            
                 var sql = "select Id, CONCAT(FirstName,' ' ,LastName) as Name From Users Where Id = @Id";
                 var data = connection.QueryFirstOrDefault(sql, new { Id = userId });
 
                 var query = "INSERT INTO feedback (Uid, Name, Feedback) VALUES (@Uid, @Name, @Feedback)";
-                connection.Query(query, new { Uid = data.Id, Name = data.Name, Feedback = feedback });
-                result = true;
+                connection.Execute(query, new { Uid = data.Id, Name = data.Name, Feedback = feedback });
+                
+            
+        }
+
+        public List<Feedbacks> GetFeedback()
+        {
+            IEnumerable<Feedbacks> feedback;
+            using (var connection = new SqlConnection(DbConnection))
+            {
+                feedback = connection.Query<Feedbacks>("SELECT * FROM feedback");
             }
 
-            return result;
+            return feedback.ToList();
         }
 
 
-        }
+    }
 
 
 }
